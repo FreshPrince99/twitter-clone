@@ -16,7 +16,7 @@ export const getUserProfile = async (req, res) => {
         console.log("Error in getUserProfile: ", error.message);
         res.status(500).json({error: error.message});
     }
-}
+};
 
 export const followUnfollowUser = async (req, res) => {
     try {
@@ -44,7 +44,6 @@ export const followUnfollowUser = async (req, res) => {
             // });
 
             // await newNotification.save();
-            //TODO return the id of the user as a response
             res.status(200).json({ message: "User unfollowed successfully" });
 
         } else {
@@ -60,14 +59,13 @@ export const followUnfollowUser = async (req, res) => {
 
             await newNotification.save();
 
-            //TODO return the id of the user as a response
             res.status(200).json({ message: "User followed successfully" });
         }
     } catch (error) {
         console.log("Error in followUnfollowUser: ", error.message);
         res.status(500).json({error: error.message});
     }
-}
+};
 
 export const getSuggestedUsers = async (req, res) => {
     try {
@@ -94,7 +92,7 @@ export const getSuggestedUsers = async (req, res) => {
         console.log("Error in getSuggestedUsers: ", error.message);
         res.status(500).json({error: error.message});
     }
-}
+};
 
 export const updateUser = async (req, res) => {
     const {fullName, email, username, currentPassword, newPassword, bio, link} = req.body;
@@ -156,4 +154,4 @@ export const updateUser = async (req, res) => {
         console.log("Error in updateUser: ", error.message);
         res.status(500).json({error: error.message});
     }
-}
+};
