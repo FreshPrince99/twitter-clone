@@ -97,7 +97,8 @@ export const likeUnlikePost = async (req, res) => {
             // unlike the post
             await Post.updateOne({_id:postId}, {$pull: {likes: userId}});
             await User.updateOne({_id: userId}, {$pull: {likedPosts: postId}}); // this removes it from the likedPosts section from the user profile
-            res.status(200).json({message: "Post unliked successfully"});
+
+            const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString)
         } else {
             // like the post
             post.likes.push(userId);
@@ -111,8 +112,10 @@ export const likeUnlikePost = async (req, res) => {
             });
 
             await notification.save();
-            res.status(200).json({message: "Post liked successfully"});
+
+            const updatedLikes = post.likes;
         }
+        res.status(200).json(post.likes);
     } catch (error) {
         console.log("Error in likeUnlikePost controller: ", error.message);
         return res.status(500).json({ error: "Internal Server Error" });
