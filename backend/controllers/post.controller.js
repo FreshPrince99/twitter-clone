@@ -104,8 +104,9 @@ export const likeUnlikePost = async (req, res) => {
             await Post.updateOne({_id:postId}, {$pull: {likes: userId}});
             await User.updateOne({_id: userId}, {$pull: {likedPosts: postId}}); // this removes it from the likedPosts section from the user profile
 
-            const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString);
-            res.status(200).json(updatedLikes);
+            // const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString);
+            const updatedPost = await Post.findById(postId);
+            res.status(200).json(updatedPost.likes);
         } else {
             // like the post
             post.likes.push(userId);

@@ -5,8 +5,10 @@ export const getNotifications = async (req, res) => {
     try {
         const userId = req.user._id;
 
-        const notifications = await Notification.find({to: userId})
-        // .sort({ createdAt: -1 })
+        const notifications = await Notification.find({
+            to: userId,
+            from: {$ne: userId},
+        })
         .populate({
             path: "from",
             select: "username profileImg"
