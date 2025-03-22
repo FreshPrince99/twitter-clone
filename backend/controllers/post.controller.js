@@ -75,7 +75,13 @@ export const commentOnPost = async (req, res) => {
 
         post.comments.push(comment);
         await post.save();
-        res.status(200).json(post);
+
+        const updatedPost = await Post.findById(postId).populate({
+            path: "comments.user",
+            select:"-password",
+        });
+
+        res.status(200).json(updatedPost.comments);
 
     } catch (error) {
         console.log("Error in commentOnPost controller: ", error.message);
@@ -98,7 +104,8 @@ export const likeUnlikePost = async (req, res) => {
             await Post.updateOne({_id:postId}, {$pull: {likes: userId}});
             await User.updateOne({_id: userId}, {$pull: {likedPosts: postId}}); // this removes it from the likedPosts section from the user profile
 
-            const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString)
+            const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString);
+            res.status(200).json(updatedLikes);
         } else {
             // like the post
             post.likes.push(userId);
@@ -112,10 +119,8 @@ export const likeUnlikePost = async (req, res) => {
             });
 
             await notification.save();
-
-            const updatedLikes = post.likes;
+            res.status(200).json(post.likes);
         }
-        res.status(200).json(post.likes);
     } catch (error) {
         console.log("Error in likeUnlikePost controller: ", error.message);
         return res.status(500).json({ error: "Internal Server Error" });
