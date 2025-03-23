@@ -12,7 +12,7 @@ This project contains two main folders: backend, frontend
 6. jwt (jasonwebtoken) is used for verifying these tokens and protects the route which a user takes by ensuring no other user can access their account (each user has their own token which remains active for 15 days)
 
 ### Pictures of the web service:
-**HomePage: **
+**HomePage:**
 
 ![image](https://github.com/user-attachments/assets/20d62c11-3438-41f1-9a28-521a3a696fa4)
 
